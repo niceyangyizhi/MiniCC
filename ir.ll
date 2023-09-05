@@ -1,5 +1,5 @@
-; ModuleID = 'sum.cpp'
-source_filename = "sum.cpp"
+; ModuleID = 'ir.cpp'
+source_filename = "ir.cpp"
 target datalayout = "e-m:o-i64:64-i128:128-n32:64-S128"
 target triple = "arm64-apple-macosx12.0.0"
 

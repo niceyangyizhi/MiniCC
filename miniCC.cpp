@@ -1079,11 +1079,23 @@ int main(int argc, char* argv[]) {
   BinopPrecedence['-'] = 20;
   BinopPrecedence['*'] = 40; // highest.
 
-  if (argc != 2) {
+  if (argc < 2) {
     std::cerr << "Usage: " << argv[0] << " <filename>\n";
     return 1;
   }
-  file = std::ifstream(argv[1], std::ios::in);
+
+  std::string input_file;
+  auto Filename = "output.o";
+  for (int i = 1; i < argc; i++) {
+      std::string arg = argv[i];
+      if (arg == "-o" && i + 1 < argc) {
+          Filename = argv[i+1];
+          i++;
+      } else {
+          input_file = arg;
+      }
+  }
+  file = std::ifstream(input_file, std::ios::in);
   if (!file.is_open()) {
     std::cerr << "Failed to open file: " << argv[1] << "\n";
     return 1;
@@ -1136,7 +1148,6 @@ int main(int argc, char* argv[]) {
 
   TheModule->setDataLayout(TheTargetMachine->createDataLayout());
 
-  auto Filename = "output.o";
   std::error_code EC;
   raw_fd_ostream dest(Filename, EC, sys::fs::OF_None);
 
